@@ -9,5 +9,6 @@ public class App
     	Inicio inicio = new Inicio();
     	inicio.setLocationRelativeTo(null);
     	inicio.setVisible(true);
+
     }
 }
