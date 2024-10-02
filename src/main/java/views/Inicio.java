@@ -1,9 +1,12 @@
 package views;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.Font;
 
 public class Inicio extends JFrame {
 
@@ -37,6 +40,15 @@ public class Inicio extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Log In");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnNewButton.setBounds(97, 217, 117, 56);
+		contentPane.add(btnNewButton);
+		
+		JButton registerBtn = new JButton("Sign In");
+		registerBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		registerBtn.setBounds(369, 217, 117, 56);
+		contentPane.add(registerBtn);
 	}
-
 }
