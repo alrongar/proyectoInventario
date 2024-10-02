@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class LogIn extends JFrame {
 
@@ -17,6 +18,7 @@ public class LogIn extends JFrame {
 	private JPanel contentPane;
 	private JTextField userText;
 	private JTextField passwordText;
+	private JButton volverBtn;
 
 	/**
 	 * Launch the application.
@@ -74,8 +76,22 @@ public class LogIn extends JFrame {
 			}
 		});
 		logInBtn.setFont(new Font("Dialog", Font.BOLD, 16));
-		logInBtn.setBounds(246, 203, 115, 41);
+		logInBtn.setBounds(134, 203, 115, 41);
 		contentPane.add(logInBtn);
+		
+		volverBtn = new JButton("Back");
+		volverBtn.setBackground(new Color(255, 223, 224));
+		volverBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Inicio inicio = new Inicio();
+				inicio.setLocationRelativeTo(null);
+				inicio.setVisible(true);
+			}
+		});
+		volverBtn.setFont(new Font("Dialog", Font.BOLD, 16));
+		volverBtn.setBounds(335, 203, 115, 41);
+		contentPane.add(volverBtn);
 	}
 
 }

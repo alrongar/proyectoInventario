@@ -1,12 +1,12 @@
 package inventario.proyectoADRA2;
 
-import views.LogIn;
+import views.Inicio;
 
 public class App 
 {
     public static void main( String[] args )
     {
-    	LogIn inicio = new LogIn();
+    	Inicio inicio = new Inicio();
     	inicio.setLocationRelativeTo(null);
     	inicio.setVisible(true);
 

@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Inicio extends JFrame {
 
@@ -41,12 +43,28 @@ public class Inicio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Log In");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBounds(97, 217, 117, 56);
-		contentPane.add(btnNewButton);
+		JButton logInBtn = new JButton("Log In");
+		logInBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				LogIn logIn = new LogIn();
+				logIn.setLocationRelativeTo(null);
+				logIn.setVisible(true);
+			}
+		});
+		logInBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		logInBtn.setBounds(97, 217, 117, 56);
+		contentPane.add(logInBtn);
 		
 		JButton registerBtn = new JButton("Sign In");
+		registerBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				SignIn signIn = new SignIn();
+				signIn.setLocationRelativeTo(null);
+				signIn.setVisible(true);
+			}
+		});
 		registerBtn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		registerBtn.setBounds(369, 217, 117, 56);
 		contentPane.add(registerBtn);
