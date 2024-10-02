@@ -1,13 +1,13 @@
 package inventario.proyectoADRA2;
 
-/**
- * Hello world!
- *
- */
+import views.Inicio;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	Inicio inicio = new Inicio();
+    	inicio.setLocationRelativeTo(null);
+    	inicio.setVisible(true);
     }
 }
