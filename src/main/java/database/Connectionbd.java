@@ -15,7 +15,7 @@ public class Connectionbd {
     	try {
 			if (connect == null || connect.isClosed()){
 			     connect = DriverManager.getConnection(URL, USER, PASSWORD);
-			     //System.out.println("Database connection successful.");
+			     
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -23,30 +23,5 @@ public class Connectionbd {
     	 return connect;
     }
 
-    // Método main para probar la conexión
-    public static void main(String[] args) {
-        // Crear una instancia de la clase Connectionbd
-        Connectionbd connectionbd = new Connectionbd();
-
-        // Intentar conectar a la base de datos
-        Connection connection = connectionbd.connect();
-
-        // Verificar si la conexión fue exitosa
-        if (connection != null) {
-            System.out.println("Conexión establecida con éxito.");
-            // Aquí podrías realizar otras operaciones si lo deseas
-
-            // Recuerda cerrar la conexión al final
-            try {
-                connection.close();
-                System.out.println("Conexión cerrada.");
-            } catch (SQLException e) {
-                System.out.println("Error al cerrar la conexión.");
-                e.printStackTrace(); // Añadir traza de la excepción para más información
-            }
-        } else {
-            System.out.println("No se pudo establecer la conexión.");
-        }
-    }
 }
 

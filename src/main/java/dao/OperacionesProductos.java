@@ -9,16 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OperacionesCRUD {
+public class OperacionesProductos {
     private Connection connection;
 
     
-    public OperacionesCRUD(Connection connection) {
+    public OperacionesProductos(Connection connection) {
         this.connection = connection;
     }
 
     
-    public boolean createeProducto(String nombre, String descripcion, double precio, int cantidad) {
+    public boolean crearProducto(String nombre, String descripcion, double precio, int cantidad) {
         String sql = "INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
@@ -34,8 +34,8 @@ public class OperacionesCRUD {
         }
     }
 
-    //
-    public List<Producto> readProductos() {
+   
+    public List<Producto> listarProductos() {
         List<Producto> productos = new ArrayList<>();
         String sql = "SELECT nombre, descripcion, precio, cantidad FROM productos";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -56,8 +56,8 @@ public class OperacionesCRUD {
         return productos;
     }
 
-    // UPDATE: Actualizar un producto por nombre
-    public boolean updateProducto(String nombre, String descripcion, double precio, int cantidad) {
+
+    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad) {
         String sql = "UPDATE productos SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, descripcion);
@@ -73,8 +73,8 @@ public class OperacionesCRUD {
         }
     }
 
-    // DELETE: Eliminar un producto por nombre
-    public boolean deleteProducto(String nombre) {
+   
+    public boolean eliminarProducto(String nombre) {
         String sql = "DELETE FROM productos WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
