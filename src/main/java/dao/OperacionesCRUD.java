@@ -18,7 +18,7 @@ public class OperacionesCRUD {
     }
 
     
-    public boolean createProducto(String nombre, String descripcion, double precio, int cantidad) {
+    public boolean createeProducto(String nombre, String descripcion, double precio, int cantidad) {
         String sql = "INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
