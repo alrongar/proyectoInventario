@@ -13,15 +13,9 @@ public class Connectionbd {
     
     public Connection connect()  {
     	try {
-			if (connect == null || connect.isClosed()) {
-      
-			    try {
-			        connect = DriverManager.getConnection(URL, USER, PASSWORD);
-			        System.out.println("Database connection successful.");
-			    }catch (SQLException e) {
-					e.printStackTrace();
-				}
-			   
+			if (connect == null || connect.isClosed()){
+			     connect = DriverManager.getConnection(URL, USER, PASSWORD);
+			     //System.out.println("Database connection successful.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
