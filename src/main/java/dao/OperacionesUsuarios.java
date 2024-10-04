@@ -16,7 +16,7 @@ public class OperacionesUsuarios {
     } 
 
     public void incluirUsuario(String nombre, String contraseña, boolean isAdministrador) {
-        String sql = "INSERT INTO Usuarios (nombre, contraseña, isAdministrador) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO usuario (nombre, contraseña, isAdministrador) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
      
             String contraseñaHasheada = CifradodeContraseñas.generarHash(contraseña);
@@ -69,7 +69,7 @@ public class OperacionesUsuarios {
 
     // Métodos de login de usuario
     public int verificarUsuario(String nombre, String contraseña) {
-        String sql = "SELECT contraseña FROM Usuarios WHERE nombre = ?";
+        String sql = "SELECT contraseña FROM usuario WHERE nombre = ?";
         int tipoUsuario = 2;  
         
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -82,17 +82,17 @@ public class OperacionesUsuarios {
                     
                     if (contraseñaHasheada.equals(contraseñaAlmacenada)) {
                         if (esAdministrador(nombre)) {
-                            System.out.println(nombre + " es administrador.");
+                            //System.out.println(nombre + " es administrador.");
                             tipoUsuario = 0;
                         } else {
-                            System.out.println(nombre + " no es administrador.");
+                            //System.out.println(nombre + " no es administrador.");
                             tipoUsuario = 1;
                         }
                     } else {
-                        System.out.println("Contraseña incorrecta para el usuario: " + nombre);
+                        //System.out.println("Contraseña incorrecta para el usuario: " + nombre);
                     }
                 } else {
-                    System.out.println("Usuario no encontrado: " + nombre);
+                    //System.out.println("Usuario no encontrado: " + nombre);
                     tipoUsuario = 3;  
                 }
             }
