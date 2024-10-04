@@ -12,14 +12,18 @@ import java.util.List;
 public class OperacionesProductos {
     private Connection connection;
 
-    
     public OperacionesProductos(Connection connection) {
         this.connection = connection;
     }
 
-    
+    // Método para crear un producto 
     public boolean crearProducto(String nombre, String descripcion, double precio, int cantidad) {
-        String sql = "INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Descripcion: " + descripcion);
+        System.out.println("Precio: " + precio);
+        System.out.println("Cantidad: " + cantidad);
+
+        String sql = "INSERT INTO producto (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             statement.setString(2, descripcion);
@@ -34,10 +38,10 @@ public class OperacionesProductos {
         }
     }
 
-   
+    // Método para listar todos los productos 
     public List<Producto> listarProductos() {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT nombre, descripcion, precio, cantidad FROM productos";
+        String sql = "SELECT nombre, descripcion, precio, cantidad FROM producto";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -56,16 +60,16 @@ public class OperacionesProductos {
         return productos;
     }
 
-
-    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad) {
-        String sql = "UPDATE productos SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
+    // Método para actualizar un producto 
+    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad){
+        String sql = "UPDATE producto SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, descripcion);
             statement.setDouble(2, precio);
             statement.setInt(3, cantidad);
             statement.setString(4, nombre);
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
+            int rowsUpdated = statement.executeUpdate(); 
+            return rowsUpdated > 0; 
         } catch (SQLException e) {
             System.out.println("Error al actualizar el producto.");
             e.printStackTrace();
@@ -73,9 +77,10 @@ public class OperacionesProductos {
         }
     }
 
-   
+    // Método para eliminar un producto
     public boolean eliminarProducto(String nombre) {
-        String sql = "DELETE FROM productos WHERE nombre = ?";
+       
+        String sql = "DELETE FROM producto WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             int rowsDeleted = statement.executeUpdate();
@@ -87,5 +92,6 @@ public class OperacionesProductos {
         }
     }
 }
+
 
 
