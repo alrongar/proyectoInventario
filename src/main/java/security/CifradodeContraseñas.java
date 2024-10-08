@@ -2,17 +2,28 @@ package security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 public class CifradodeContraseñas {
 
    
-    public static String generarHash(String contraseña) {
+	// Genera un salt aleatorio
+    public static String generarSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt); // Codificamos en Base64 para almacenar fácilmente
+    }
+
+    
+    public static String generarHash(String contraseña, String salt) {
         try {
-           
+         
+            String contraseñaSalted = contraseña + salt;
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(contraseña.getBytes());
-            
-           
+            byte[] hash = digest.digest(contraseñaSalted.getBytes());
+          
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -24,5 +35,6 @@ public class CifradodeContraseñas {
             throw new RuntimeException(e);
         }
     }
+    
 }
 
