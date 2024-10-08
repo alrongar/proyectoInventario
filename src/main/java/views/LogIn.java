@@ -1,16 +1,22 @@
 package views;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import dao.OperacionesCRUD;
+import database.Connectionbd;
+import models.Usuario;
 
 public class LogIn extends JFrame {
 
@@ -19,6 +25,8 @@ public class LogIn extends JFrame {
 	private JTextField userText;
 	private JTextField passwordText;
 	private JButton volverBtn;
+	
+	private List<Usuario> usuarios;
 
 	/**
 	 * Launch the application.
@@ -27,7 +35,9 @@ public class LogIn extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LogIn frame = new LogIn();
+					Connectionbd conexionbd = new Connectionbd();
+					Connection conexion = conexionbd.connect();
+					LogIn frame = new LogIn(conexion);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +49,11 @@ public class LogIn extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LogIn() {
+	public LogIn(Connection conexion) {
+		
+		OperacionesCRUD op = new OperacionesCRUD(conexion);
+		usuarios = null;//op.readUsuarios();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 381);
 		contentPane = new JPanel();
@@ -73,6 +87,17 @@ public class LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String name = userText.getText();
 				String password = passwordText.getText();
+				Usuario user = new Usuario(name, password);
+				if (usuarios.contains(user)) {
+					int index = usuarios.indexOf(user);
+					 Usuario usuario = usuarios.get(index);
+					 if (usuario.getContraseña().equals(password)) {
+						 dispose();
+							ProductosList productosList = new ProductosList(conexion);
+							productosList.setLocationRelativeTo(null);
+							productosList.setVisible(true);
+					}
+				}
 			}
 		});
 		logInBtn.setFont(new Font("Dialog", Font.BOLD, 16));
@@ -84,7 +109,7 @@ public class LogIn extends JFrame {
 		volverBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				Inicio inicio = new Inicio();
+				Inicio inicio = new Inicio(conexion);
 				inicio.setLocationRelativeTo(null);
 				inicio.setVisible(true);
 			}

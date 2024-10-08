@@ -1,6 +1,6 @@
 package models;
 
-public class Usuario {
+public class Usuario implements Comparable<Usuario>{
 
 	private String nombre;
 	private String contraseña;
@@ -34,6 +34,15 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [nombre=" + nombre + ", contraseña=" + contraseña + "]";
 	}
+
+	@Override
+	public int compareTo(Usuario o) {
+		return this.nombre.compareTo(o.nombre);
+	}
+
+	
+	
+	
 
 	
 

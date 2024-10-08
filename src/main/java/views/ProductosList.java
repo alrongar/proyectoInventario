@@ -1,20 +1,25 @@
 package views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.SystemColor;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+
+import dao.OperacionesCRUD;
+import database.Connectionbd;
+import models.Producto;
 
 public class ProductosList extends JFrame {
 
@@ -22,6 +27,8 @@ public class ProductosList extends JFrame {
 	private JPanel contentPane;
 	private JTextField buscadorText;
 	private JTable table;
+	private List<Producto> productos;
+	private List<Producto> productosActuales;
 
 	/**
 	 * Launch the application.
@@ -30,7 +37,9 @@ public class ProductosList extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProductosList frame = new ProductosList();
+					Connectionbd conexionbd = new Connectionbd();
+					Connection conexion = conexionbd.connect();
+					ProductosList frame = new ProductosList(conexion);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,11 +47,17 @@ public class ProductosList extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
 	 */
-	public ProductosList() {
+	public ProductosList(Connection conexion) {
+		
+		OperacionesCRUD op = new OperacionesCRUD(conexion);
+		productos = op.readProductos();
+		productosActuales = productos;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 381);
 		contentPane = new JPanel();
@@ -59,6 +74,7 @@ public class ProductosList extends JFrame {
 		panel.setLayout(null);
 		
 		buscadorText = new JTextField();
+		
 		buscadorText.setForeground(SystemColor.scrollbar);
 		buscadorText.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		buscadorText.setText("buscar");
@@ -83,11 +99,33 @@ public class ProductosList extends JFrame {
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
-		table = new JTable();
+		
+		
+		ProductosTableModel modelo = new ProductosTableModel(productosActuales);
+		
+		table = new JTable(modelo);
+		
 		table.setBounds(12, 12, 551, 242);
 		panel_2.add(table);
 		BackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		buscadorText.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String busqueda = buscadorText.getText(); 
+				
+				productosActuales.clear();
+				for (Producto producto : productos) {
+					if (producto.getNombre().startsWith(busqueda)) {
+						productosActuales.add(producto);
+					}
+				}
+				
+				modelo.setProductos(productosActuales);
 			}
 		});
 	}

@@ -1,14 +1,17 @@
 package views;
 
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import database.Connectionbd;
 
 public class Inicio extends JFrame {
 
@@ -22,7 +25,9 @@ public class Inicio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Inicio frame = new Inicio();
+					Connectionbd conexionbd = new Connectionbd();
+					Connection conexion = conexionbd.connect();
+					Inicio frame = new Inicio(conexion);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +39,7 @@ public class Inicio extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Inicio() {
+	public Inicio(Connection conexion) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 381);
 		contentPane = new JPanel();
@@ -47,7 +52,7 @@ public class Inicio extends JFrame {
 		logInBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				LogIn logIn = new LogIn();
+				LogIn logIn = new LogIn(conexion);
 				logIn.setLocationRelativeTo(null);
 				logIn.setVisible(true);
 			}
@@ -60,7 +65,7 @@ public class Inicio extends JFrame {
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				SignIn signIn = new SignIn();
+				SignIn signIn = new SignIn(conexion);
 				signIn.setLocationRelativeTo(null);
 				signIn.setVisible(true);
 			}
