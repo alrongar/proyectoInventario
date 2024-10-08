@@ -32,7 +32,7 @@ public class Usuario implements Comparable<Usuario>{
 
 	@Override
 	public String toString() {
-		return "Usuario [nombre=" + nombre + ", contraseña=" + contraseña + "]";
+		return "nombre=" + nombre + ", contraseña=" + contraseña;
 	}
 
 	@Override

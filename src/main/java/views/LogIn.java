@@ -10,11 +10,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import dao.OperacionesCRUD;
+import dao.OperacionesUsuarios;
 import database.Connectionbd;
 import models.Usuario;
 
@@ -51,7 +52,7 @@ public class LogIn extends JFrame {
 	 */
 	public LogIn(Connection conexion) {
 		
-		OperacionesCRUD op = new OperacionesCRUD(conexion);
+		OperacionesUsuarios op = new OperacionesUsuarios(conexion);
 		usuarios = null;//op.readUsuarios();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,17 +88,22 @@ public class LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String name = userText.getText();
 				String password = passwordText.getText();
-				Usuario user = new Usuario(name, password);
-				if (usuarios.contains(user)) {
-					int index = usuarios.indexOf(user);
-					 Usuario usuario = usuarios.get(index);
-					 if (usuario.getContraseña().equals(password)) {
-						 dispose();
-							ProductosList productosList = new ProductosList(conexion);
-							productosList.setLocationRelativeTo(null);
-							productosList.setVisible(true);
-					}
+				
+				
+				int tipoUsuario = op.verificarUsuario(name, password);
+				if (tipoUsuario < 2) {
+					dispose();
+					ProductosList productosList = new ProductosList(conexion, tipoUsuario);
+					productosList.setLocationRelativeTo(null);
+					productosList.setVisible(true);
+				} else if (tipoUsuario == 3) {
+					JOptionPane.showMessageDialog(null, "El usuario no ha sido encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "La contraseña no es válida", "Error", JOptionPane.ERROR_MESSAGE);
 				}
+			 	
+		
+				
 			}
 		});
 		logInBtn.setFont(new Font("Dialog", Font.BOLD, 16));

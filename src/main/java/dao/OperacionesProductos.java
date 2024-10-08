@@ -9,17 +9,23 @@ import java.util.List;
 
 import models.Producto;
 
-public class OperacionesCRUD {
+
+public class OperacionesProductos {
+
     private Connection connection;
 
-    
-    public OperacionesCRUD(Connection connection) {
+    public OperacionesProductos(Connection connection) {
         this.connection = connection;
     }
 
-    
-    public boolean createProducto(String nombre, String descripcion, double precio, int cantidad) {
-        String sql = "INSERT INTO productos (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
+    // Método para crear un producto 
+    public boolean crearProducto(String nombre, String descripcion, double precio, int cantidad) {
+        System.out.println("Nombre: " + nombre);
+        System.out.println("Descripcion: " + descripcion);
+        System.out.println("Precio: " + precio);
+        System.out.println("Cantidad: " + cantidad);
+
+        String sql = "INSERT INTO producto (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             statement.setString(2, descripcion);
@@ -34,10 +40,10 @@ public class OperacionesCRUD {
         }
     }
 
-    //
-    public List<Producto> readProductos() {
+    // Método para listar todos los productos 
+    public List<Producto> listarProductos() {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT nombre, descripcion, precio, cantidad FROM productos";
+        String sql = "SELECT nombre, descripcion, precio, cantidad FROM producto";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -56,16 +62,16 @@ public class OperacionesCRUD {
         return productos;
     }
 
-    // UPDATE: Actualizar un producto por nombre
-    public boolean updateProducto(String nombre, String descripcion, double precio, int cantidad) {
-        String sql = "UPDATE productos SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
+    // Método para actualizar un producto 
+    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad){
+        String sql = "UPDATE producto SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, descripcion);
             statement.setDouble(2, precio);
             statement.setInt(3, cantidad);
             statement.setString(4, nombre);
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
+            int rowsUpdated = statement.executeUpdate(); 
+            return rowsUpdated > 0; 
         } catch (SQLException e) {
             System.out.println("Error al actualizar el producto.");
             e.printStackTrace();
@@ -73,9 +79,10 @@ public class OperacionesCRUD {
         }
     }
 
-    // DELETE: Eliminar un producto por nombre
-    public boolean deleteProducto(String nombre) {
-        String sql = "DELETE FROM productos WHERE nombre = ?";
+    // Método para eliminar un producto
+    public boolean eliminarProducto(String nombre) {
+       
+        String sql = "DELETE FROM producto WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             int rowsDeleted = statement.executeUpdate();
@@ -87,5 +94,6 @@ public class OperacionesCRUD {
         }
     }
 }
+
 
 

@@ -17,9 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import dao.OperacionesCRUD;
+import dao.OperacionesProductos;
 import database.Connectionbd;
 import models.Producto;
+import javax.swing.JScrollPane;
 
 public class ProductosList extends JFrame {
 
@@ -39,7 +40,7 @@ public class ProductosList extends JFrame {
 				try {
 					Connectionbd conexionbd = new Connectionbd();
 					Connection conexion = conexionbd.connect();
-					ProductosList frame = new ProductosList(conexion);
+					ProductosList frame = new ProductosList(conexion, 0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,10 +53,10 @@ public class ProductosList extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProductosList(Connection conexion) {
+	public ProductosList(Connection conexion, int tipoUsuario) {
 		
-		OperacionesCRUD op = new OperacionesCRUD(conexion);
-		productos = op.readProductos();
+		OperacionesProductos op = new OperacionesProductos(conexion);
+		productos = op.listarProductos();
 		productosActuales = productos;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,14 +103,20 @@ public class ProductosList extends JFrame {
 		
 		
 		ProductosTableModel modelo = new ProductosTableModel(productosActuales);
-		
 		table = new JTable(modelo);
+		JScrollPane scrollPane = new JScrollPane(table);
 		
-		table.setBounds(12, 12, 551, 242);
-		panel_2.add(table);
+		scrollPane.setBounds(12, 12, 551, 242);
+		panel_2.add(scrollPane);
+		
+		
+		scrollPane.setViewportView(table);
 		BackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				dispose();
+				LogIn logIn = new LogIn(conexion);
+				logIn.setLocationRelativeTo(null);
+				logIn.setVisible(true);
 			}
 		});
 		
