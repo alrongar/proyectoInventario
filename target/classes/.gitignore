@@ -1,3 +1,7 @@
 /META-INF/
-/security/
 /dao/
+/database/
+/inventario/
+/models/
+/views/
+/security/

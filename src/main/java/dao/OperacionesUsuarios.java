@@ -15,62 +15,51 @@ public class OperacionesUsuarios {
         this.connection = connection;
     } 
 
+    // Incluir usuario
     public void incluirUsuario(String nombre, String contraseña, boolean isAdministrador) {
         String sql = "INSERT INTO usuario (nombre, contraseña, isAdministrador) VALUES (?, ?, ?)";
+        
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-     
             String contraseñaHasheada = CifradodeContraseñas.generarHash(contraseña);
             
             stmt.setString(1, nombre);
-            stmt.setString(2, contraseñaHasheada);  
+            stmt.setString(2, contraseñaHasheada); 
             stmt.setBoolean(3, isAdministrador);
             stmt.executeUpdate();
-            
-            System.out.println("Usuario agregado: " + nombre);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-    // Método para eliminar un usuario 
+    // Eliminar usuario
     public void eliminarUsuario(String nombre) {
         String sql = "DELETE FROM usuario WHERE nombre = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, nombre);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Usuario eliminado: " + nombre);
-            } else {
-                System.out.println("Usuario no encontrado: " + nombre);
-            }
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Método para editar un usuario por su nombre 
+    // Editar usuario
     public void editarUsuario(String nombre, String nuevaContraseña, boolean isAdministrador) {
         String sql = "UPDATE usuario SET contraseña = ?, isAdministrador = ? WHERE nombre = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, nuevaContraseña);
+            String contraseñaHasheada = CifradodeContraseñas.generarHash(nuevaContraseña);
+            stmt.setString(1, contraseñaHasheada);
             stmt.setBoolean(2, isAdministrador);
             stmt.setString(3, nombre);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Usuario actualizado: " + nombre);
-            } else {
-                System.out.println("Usuario no encontrado: " + nombre);
-            }
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Métodos de login de usuario
+    // Verificar usuario (login)
     public int verificarUsuario(String nombre, String contraseña) {
         String sql = "SELECT contraseña FROM usuario WHERE nombre = ?";
-        int tipoUsuario = 2;  
+        int tipoUsuario = 2;  // 0: admin, 1: usuario, 2: incorrecto, 3: no encontrado
         
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, nombre);
@@ -78,22 +67,10 @@ public class OperacionesUsuarios {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     String contraseñaAlmacenada = rs.getString("contraseña");
-                    //String contraseñaHasheada = CifradodeContraseñas.generarHash(contraseña);
-                    
-                    if (contraseña.equals(contraseñaAlmacenada)) {
-                        if (esAdministrador(nombre)) {
-                            //System.out.println(nombre + " es administrador.");
-                            tipoUsuario = 0;
-                        } else {
-                            //System.out.println(nombre + " no es administrador.");
-                            tipoUsuario = 1;
-                        }
-                    } else {
-                        //System.out.println("Contraseña incorrecta para el usuario: " + nombre);
-                    	tipoUsuario = 2; 
-                    }
+                    if (CifradodeContraseñas.verificarHash(contraseña, contraseñaAlmacenada)) {
+                        tipoUsuario = esAdministrador(nombre) ? 0 : 1;
+                    } 
                 } else {
-                    //System.out.println("Usuario no encontrado: " + nombre);
                     tipoUsuario = 3;  
                 }
             }
@@ -104,8 +81,7 @@ public class OperacionesUsuarios {
         return tipoUsuario;
     }
 
-
-    // Método para verificar si un usuario es administrador
+    // Verificar si es administrador
     private boolean esAdministrador(String nombre) {
         String sql = "SELECT isAdministrador FROM usuario WHERE nombre = ?";
 
@@ -122,5 +98,4 @@ public class OperacionesUsuarios {
         return false; 
     }
 }
-
 

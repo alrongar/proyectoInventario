@@ -7,34 +7,38 @@ import java.util.Base64;
 
 public class CifradodeContraseñas {
 
-   
-	// Genera un salt aleatorio
-    public static String generarSalt() {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt); // Codificamos en Base64 para almacenar fácilmente
+	public static String generarHash(String contraseñaUsuario) {
+        byte[] contraseñaHasheadaBytes = null;
+
+        try {
+            MessageDigest digestMensaje = MessageDigest.getInstance("SHA-256");
+            String semillaFija = generarSemillaFija();
+            digestMensaje.update(semillaFija.getBytes());
+            contraseñaHasheadaBytes = digestMensaje.digest(contraseñaUsuario.getBytes());
+
+        } catch (NoSuchAlgorithmException nsaex) {
+            nsaex.printStackTrace();
+        }
+
+        return Base64.getEncoder().encodeToString(contraseñaHasheadaBytes); // Devuelve la contraseña hasheada
+    }
+
+    // Método para generar una semilla fija
+    public static String generarSemillaFija() {
+        byte[] bytesSemilla = "SemillaFijaParaContraseña".getBytes();
+        SecureRandom generadorSeguro = new SecureRandom(bytesSemilla); 
+        byte[] semilla = new byte[16];
+        generadorSeguro.nextBytes(semilla);
+        return Base64.getEncoder().encodeToString(semilla); 
     }
 
     
-    public static String generarHash(String contraseña, String salt) {
-        try {
-         
-            String contraseñaSalted = contraseña + salt;
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(contraseñaSalted.getBytes());
-          
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
     
+    // Método para verificar el hash
+    public static boolean verificarHash(String contraseña, String hashAlmacenado) {
+        String hashGenerado = generarHash(contraseña);
+        return hashGenerado.equals(hashAlmacenado);
+    }
 }
+
 
