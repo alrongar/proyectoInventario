@@ -68,6 +68,7 @@ public class OperacionesProductos {
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
+        	JOptionPane.showMessageDialog(null, "Este nombre de producto ya existe, cambia el nombre", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return false;
         }
