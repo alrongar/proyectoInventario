@@ -6,12 +6,18 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.sql.Connection;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
@@ -20,7 +26,6 @@ import javax.swing.border.EmptyBorder;
 import dao.OperacionesProductos;
 import database.Connectionbd;
 import models.Producto;
-import javax.swing.JScrollPane;
 
 public class ProductosList extends JFrame {
 
@@ -76,6 +81,29 @@ public class ProductosList extends JFrame {
 		
 		buscadorText = new JTextField();
 		
+		buscadorText.addFocusListener(new FocusAdapter() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (buscadorText.getText().isEmpty()) {
+					buscadorText.setText("Buscar");
+					buscadorText.setForeground(Color.GRAY); // Volver a gris si está vacío
+                }
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				
+				buscadorText.setForeground(Color.BLACK); // Texto normal cuando el usuario escribe
+				buscadorText.setText("");
+                
+                
+			}
+			
+		});
+		
+		
+		
 		buscadorText.setForeground(SystemColor.scrollbar);
 		buscadorText.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		buscadorText.setText("buscar");
@@ -94,6 +122,16 @@ public class ProductosList extends JFrame {
 		BackBtn.setBackground(new Color(255, 224, 223));
 		BackBtn.setBounds(456, 10, 109, 31);
 		panel_1.add(BackBtn);
+		
+		JButton btnDelete = new JButton("Delete");
+		if (tipoUsuario == 0) {
+			btnDelete.setVisible(true);
+		}else {
+			btnDelete.setVisible(false);
+		}
+		
+		btnDelete.setBounds(319, 10, 109, 31);
+		panel_1.add(btnDelete);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 39, 575, 266);
@@ -120,20 +158,53 @@ public class ProductosList extends JFrame {
 			}
 		});
 		
-		buscadorText.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		buscadorText.addInputMethodListener(new InputMethodListener() {
+			public void inputMethodTextChanged(InputMethodEvent event) {
 				String busqueda = buscadorText.getText(); 
+				System.out.println(busqueda);
 				
-				productosActuales.clear();
-				for (Producto producto : productos) {
-					if (producto.getNombre().startsWith(busqueda)) {
-						productosActuales.add(producto);
+				if (busqueda.equals("")) {
+					productosActuales = productos;
+					
+				}else {
+					productosActuales.clear();
+					for (Producto producto : productos) {
+						if (producto.getNombre().startsWith(busqueda)) {
+							productosActuales.add(producto);
+						}
 					}
 				}
-				
-				modelo.setProductos(productosActuales);
+				((ProductosTableModel) table.getModel()).setProductos(productosActuales);
+			}
+			public void caretPositionChanged(InputMethodEvent event) {
+				System.out.println("cambio de posicion");
+			}
+			
+		});
+		
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int filaSeleccionada = table.getSelectedRow();
+                if (filaSeleccionada != -1) { 
+                    
+                    String nombre = table.getValueAt(filaSeleccionada, 0).toString();
+                    op.eliminarProducto(nombre);
+                    productos = op.listarProductos();
+                    productosActuales = productos;
+                    ProductosTableModel modelo = new ProductosTableModel(productos);
+                    table.setModel(modelo);
+                }else {
+                	JOptionPane.showMessageDialog(null, "Seleccione un producto para realizar esta accion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 			}
 		});
+		
+		//----------------------------------
+		
+		
+		
+		
+		
+		
 	}
 }
