@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import javax.swing.JOptionPane;
 
 import security.CifradodeContraseñas;
 
@@ -27,6 +30,7 @@ public class OperacionesUsuarios {
             stmt.setBoolean(3, isAdministrador);
             stmt.executeUpdate();
         } catch (SQLException e) {
+        	JOptionPane.showMessageDialog(null, "Nombre de usuario ya existente", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

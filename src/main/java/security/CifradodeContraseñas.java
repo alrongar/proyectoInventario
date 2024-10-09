@@ -31,7 +31,7 @@ public class CifradodeContraseñas {
     // Método para verificar el hash
     public static boolean verificarHash(String contraseña, String hashAlmacenado) {
         String hashGenerado = generarHash(contraseña);
-
+        
         return hashGenerado.equals(hashAlmacenado);
     }
 }

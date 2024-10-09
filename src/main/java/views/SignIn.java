@@ -5,10 +5,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -84,6 +87,8 @@ public class SignIn extends JFrame {
 				String password = passwordText.getText();
 				
 				op.incluirUsuario(name, password, false);
+			
+				
 			}
 		});
 		signInBtn.setFont(new Font("Dialog", Font.BOLD, 16));
