@@ -53,7 +53,6 @@ public class LogIn extends JFrame {
 	public LogIn(Connection conexion) {
 		
 		OperacionesUsuarios op = new OperacionesUsuarios(conexion);
-		usuarios = null;//op.readUsuarios();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 381);

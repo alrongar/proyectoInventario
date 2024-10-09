@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dao.OperacionesUsuarios;
 import database.Connectionbd;
 
 public class SignIn extends JFrame {
@@ -45,6 +46,9 @@ public class SignIn extends JFrame {
 	 * Create the frame.
 	 */
 	public SignIn(Connection conexion) {
+		
+		OperacionesUsuarios op = new OperacionesUsuarios(conexion);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 589, 381);
 		contentPane = new JPanel();
@@ -78,6 +82,8 @@ public class SignIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String name = userText.getText();
 				String password = passwordText.getText();
+				
+				op.incluirUsuario(name, password, false);
 			}
 		});
 		signInBtn.setFont(new Font("Dialog", Font.BOLD, 16));
