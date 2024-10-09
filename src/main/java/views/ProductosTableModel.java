@@ -67,10 +67,6 @@ public class ProductosTableModel extends AbstractTableModel {
 		return columnas[column];
 	}
 	
-	
 
-	
-
-	
 	
 }

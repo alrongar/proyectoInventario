@@ -67,6 +67,7 @@ public class ProductosUpdate extends JFrame {
 		setBounds(100, 100, 589, 381);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(240, 248, 255)); // Fondo claro (Blanco Hielo)
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -74,7 +75,7 @@ public class ProductosUpdate extends JFrame {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1.setBackground(SystemColor.scrollbar);
+		panel_1.setBackground(new Color(200, 220, 240)); // Fondo del panel inferior
 		panel_1.setBounds(-14, 303, 603, 51);
 		contentPane.add(panel_1);
 		
@@ -87,19 +88,19 @@ public class ProductosUpdate extends JFrame {
 				productoList.setVisible(true);
 			}
 		});
-		BackBtn.setBackground(new Color(255, 224, 223));
+		BackBtn.setBackground(new Color(255, 224, 223)); // Color del botón
 		BackBtn.setBounds(456, 10, 109, 31);
 		panel_1.add(BackBtn);
 		
 		JButton btnUpdate = new JButton("Update");
-		
+		btnUpdate.setBackground(new Color(255, 224, 223)); // Color del botón
 		btnUpdate.setBounds(22, 10, 109, 31);
 		panel_1.add(btnUpdate);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBackground(SystemColor.scrollbar);
+		panel.setBackground(new Color(200, 220, 240)); // Fondo del panel superior
 		panel.setBounds(0, 0, 575, 41);
 		contentPane.add(panel);
 		
