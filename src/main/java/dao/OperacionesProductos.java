@@ -9,7 +9,6 @@ import java.util.List;
 
 import models.Producto;
 
-
 public class OperacionesProductos {
 
     private Connection connection;
@@ -20,11 +19,6 @@ public class OperacionesProductos {
 
     // Método para crear un producto 
     public boolean crearProducto(String nombre, String descripcion, double precio, int cantidad) {
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Descripcion: " + descripcion);
-        System.out.println("Precio: " + precio);
-        System.out.println("Cantidad: " + cantidad);
-
         String sql = "INSERT INTO producto (nombre, descripcion, precio, cantidad) VALUES (?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
@@ -34,7 +28,6 @@ public class OperacionesProductos {
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
-            System.out.println("Error al insertar el producto.");
             e.printStackTrace();
             return false;
         }
@@ -56,24 +49,22 @@ public class OperacionesProductos {
                 productos.add(producto);
             }
         } catch (SQLException e) {
-            System.out.println("Error al obtener los productos.");
             e.printStackTrace();
         }
         return productos;
     }
 
     // Método para actualizar un producto 
-    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad){
+    public boolean actualizarProducto(String nombre, String descripcion, double precio, int cantidad) {
         String sql = "UPDATE producto SET descripcion = ?, precio = ?, cantidad = ? WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, descripcion);
             statement.setDouble(2, precio);
             statement.setInt(3, cantidad);
             statement.setString(4, nombre);
-            int rowsUpdated = statement.executeUpdate(); 
-            return rowsUpdated > 0; 
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
-            System.out.println("Error al actualizar el producto.");
             e.printStackTrace();
             return false;
         }
@@ -81,14 +72,12 @@ public class OperacionesProductos {
 
     // Método para eliminar un producto
     public boolean eliminarProducto(String nombre) {
-       
         String sql = "DELETE FROM producto WHERE nombre = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nombre);
             int rowsDeleted = statement.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            System.out.println("Error al eliminar el producto.");
             e.printStackTrace();
             return false;
         }
