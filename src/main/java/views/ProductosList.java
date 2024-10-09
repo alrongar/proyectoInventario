@@ -124,14 +124,27 @@ public class ProductosList extends JFrame {
 		panel_1.add(BackBtn);
 		
 		JButton btnDelete = new JButton("Delete");
-		if (tipoUsuario == 0) {
-			btnDelete.setVisible(true);
-		}else {
-			btnDelete.setVisible(false);
-		}
 		
-		btnDelete.setBounds(319, 10, 109, 31);
+		
+		btnDelete.setBounds(264, 10, 109, 31);
 		panel_1.add(btnDelete);
+		
+		JButton btnUpdate = new JButton("Update");
+		
+		btnUpdate.setBounds(143, 10, 109, 31);
+		panel_1.add(btnUpdate);
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				ProductosAdd productoAdd = new ProductosAdd(conexion);
+				productoAdd.setLocationRelativeTo(null);
+				productoAdd.setVisible(true);
+			}
+		});
+		btnAdd.setBounds(22, 10, 109, 31);
+		panel_1.add(btnAdd);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(0, 39, 575, 266);
@@ -147,6 +160,15 @@ public class ProductosList extends JFrame {
 		scrollPane.setBounds(12, 12, 551, 242);
 		panel_2.add(scrollPane);
 		
+		if (tipoUsuario == 0) {
+			btnDelete.setVisible(true);
+			btnAdd.setVisible(true);
+			btnUpdate.setVisible(true);
+		}else {
+			btnDelete.setVisible(false);
+			btnAdd.setVisible(false);
+			btnUpdate.setVisible(false);
+		}
 		
 		scrollPane.setViewportView(table);
 		BackBtn.addActionListener(new ActionListener() {
@@ -186,16 +208,45 @@ public class ProductosList extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int filaSeleccionada = table.getSelectedRow();
                 if (filaSeleccionada != -1) { 
+                	int respuesta = JOptionPane.showConfirmDialog(
+                            ProductosList.this, 
+                            "¿Estás seguro de que quieres eliminar este elemento?", 
+                            "Confirmación de Eliminación", 
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
+                        );
+                	if (respuesta == JOptionPane.YES_OPTION) {
+                		String nombre = table.getValueAt(filaSeleccionada, 0).toString();
+                        op.eliminarProducto(nombre);
+                        productos = op.listarProductos();
+                        productosActuales = productos;
+                        ProductosTableModel modelo = new ProductosTableModel(productos);
+                        table.setModel(modelo);
+					}
+                	
                     
-                    String nombre = table.getValueAt(filaSeleccionada, 0).toString();
-                    op.eliminarProducto(nombre);
-                    productos = op.listarProductos();
-                    productosActuales = productos;
-                    ProductosTableModel modelo = new ProductosTableModel(productos);
-                    table.setModel(modelo);
                 }else {
                 	JOptionPane.showMessageDialog(null, "Seleccione un producto para realizar esta accion", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+			}
+		});
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int filaSeleccionada = table.getSelectedRow();
+				
+				String nombre = table.getValueAt(filaSeleccionada, 0).toString();
+				double precio = Double.parseDouble(table.getValueAt(filaSeleccionada, 1).toString());
+				String descripcion = table.getValueAt(filaSeleccionada, 2).toString();
+				int stock = Integer.parseInt(table.getValueAt(filaSeleccionada, 3).toString());
+				
+				Producto producto = new Producto(nombre, precio, descripcion, stock);
+				
+				dispose();
+				ProductosUpdate productoUpdate = new ProductosUpdate(conexion, producto);
+				productoUpdate.setLocationRelativeTo(null);
+				productoUpdate.setVisible(true);
 			}
 		});
 		

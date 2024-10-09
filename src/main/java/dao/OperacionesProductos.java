@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import models.Producto;
 
 public class OperacionesProductos {
@@ -28,6 +30,7 @@ public class OperacionesProductos {
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;
         } catch (SQLException e) {
+        	JOptionPane.showMessageDialog(null, "Este producto ya existente, cambia el nombre", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return false;
         }
