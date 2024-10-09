@@ -2,34 +2,28 @@ package security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Base64;
 
 public class CifradodeContraseñas {
 
-	public static String generarHash(String contraseñaUsuario) {
-        byte[] contraseñaHasheadaBytes = null;
+	private static final String CLAVE_SECRETA = "claveUnica";
+
+    public static String generarHash(String contraseña) {
+        byte[] contraseñaCifrada = null;
 
         try {
-            MessageDigest digestMensaje = MessageDigest.getInstance("SHA-256");
-            String semillaFija = generarSemillaFija();
-            digestMensaje.update(semillaFija.getBytes());
-            contraseñaHasheadaBytes = digestMensaje.digest(contraseñaUsuario.getBytes());
+            
+            MessageDigest digestor = MessageDigest.getInstance("SHA-256");
+            digestor.update(CLAVE_SECRETA.getBytes());
 
-        } catch (NoSuchAlgorithmException nsaex) {
-            nsaex.printStackTrace();
+    
+            contraseñaCifrada = digestor.digest(contraseña.getBytes());
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
 
-        return Base64.getEncoder().encodeToString(contraseñaHasheadaBytes); // Devuelve la contraseña hasheada
-    }
-
-    // Método para generar una semilla fija
-    public static String generarSemillaFija() {
-        byte[] bytesSemilla = "SemillaFijaParaContraseña".getBytes();
-        SecureRandom generadorSeguro = new SecureRandom(bytesSemilla); 
-        byte[] semilla = new byte[16];
-        generadorSeguro.nextBytes(semilla);
-        return Base64.getEncoder().encodeToString(semilla); 
+        return Base64.getEncoder().encodeToString(contraseñaCifrada);
     }
 
     
