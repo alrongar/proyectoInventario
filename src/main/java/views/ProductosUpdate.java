@@ -1,31 +1,28 @@
 package views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import dao.OperacionesProductos;
 import database.Connectionbd;
 import models.Producto;
-
-import java.awt.SystemColor;
-import javax.swing.border.BevelBorder;
-import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.awt.event.ActionEvent;
 
 public class ProductosUpdate extends JFrame {
 
