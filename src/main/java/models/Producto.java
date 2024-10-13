@@ -6,14 +6,16 @@ public class Producto {
 	private double precio;
 	private String descripcion;
 	private int stock;
+	private String imagen;
 	
 
-	public Producto(String nombre, double precio, String descripcion, int stock) {
-		super();
+	public Producto(String nombre, double precio, String descripcion, int stock, String imagen) {
+		
 		this.nombre = nombre;
 		this.precio = precio;
 		this.descripcion = descripcion;
 		this.stock = stock;
+		this.imagen = imagen;
 	}
 
 
@@ -54,6 +56,17 @@ public class Producto {
 
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	
+	
+	public String getImagen() {
+		return imagen;
+	}
+
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 

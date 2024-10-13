@@ -6,13 +6,15 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
+import javax.swing.JLabel;
+import dao.OperacionesProductos;
 import models.Producto;
 
 public class ProductosTableModel extends AbstractTableModel {
 
 	
 	private List<Producto> productos;
-    private static final String[] columnas = {"Nombre", "precio", "descripcion", "stock"};
+    private static final String[] columnas = {"Nombre", "precio", "descripcion", "stock", "imagen"};
     
     
     
@@ -40,12 +42,18 @@ public class ProductosTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		OperacionesProductos op = new OperacionesProductos(null);
+		
+		
 		 Producto producto = productos.get(rowIndex);
+		 
+		 
 	        switch (columnIndex) {
 	            case 0: return producto.getNombre(); 
 	            case 1: return producto.getPrecio();
 	            case 2: return producto.getDescripcion();
 	            case 3: return producto.getStock();
+	            case 4: return new ImageIcon(op.decodeBase64ToImage(producto.getImagen()));
 	            default: return null;
 	        }
 	}
@@ -58,7 +66,7 @@ public class ProductosTableModel extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		
-		return columnIndex == getColumnCount() ? ImageIcon.class : Object.class;
+		return columnIndex == 4 ? ImageIcon.class : Object.class;
 	}
 
 	@Override
@@ -67,10 +75,6 @@ public class ProductosTableModel extends AbstractTableModel {
 		return columnas[column];
 	}
 	
-	
-
-	
-
 	
 	
 }
