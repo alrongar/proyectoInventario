@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class ProductosTableModel extends AbstractTableModel {
 		
 		
 		 Producto producto = productos.get(rowIndex);
+		 ImageIcon imagen = new ImageIcon(op.decodeBase64ToImage(producto.getImagen()));
+		 Image imagenEscalada = imagen.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		 //imagen.setImage(imagenEscalada);
 		 
 		 
 	        switch (columnIndex) {
@@ -53,9 +57,10 @@ public class ProductosTableModel extends AbstractTableModel {
 	            case 1: return producto.getPrecio();
 	            case 2: return producto.getDescripcion();
 	            case 3: return producto.getStock();
-	            case 4: return new ImageIcon(op.decodeBase64ToImage(producto.getImagen()));
+	            case 4: return imagen!= null ? imagen : "Sin imagen";
 	            default: return null;
 	        }
+	        
 	}
 	
 	public void setProductos(List<Producto> productos) {

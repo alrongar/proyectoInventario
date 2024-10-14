@@ -57,10 +57,10 @@ public class ProductosUpdate extends JFrame {
 			}
 		});
 	}
-
-	public void mostrarImagenEnVentana(File archivoSeleccionado, JLabel imagenLabel) {
+    
+	public void mostrarImagenEnVentana(Image archivoSeleccionado, JLabel imagenLabel) {
         // Cargar la imagen seleccionada
-        ImageIcon imagen = new ImageIcon(archivoSeleccionado.getAbsolutePath());
+        ImageIcon imagen = new ImageIcon(archivoSeleccionado);
 
         // Redimensionar la imagen para que se ajuste al JLabel
         Image imagenEscalada = imagen.getImage().getScaledInstance(imagenLabel.getWidth(), imagenLabel.getHeight(), Image.SCALE_SMOOTH);
@@ -69,9 +69,11 @@ public class ProductosUpdate extends JFrame {
         // Mostrar la imagen en el JLabel
         imagenLabel.setIcon(imagen);
     }
-    
+	
     public File abrirFileChooserConJOptionPane(JLabel imagenLabel) {
         
+    	OperacionesProductos op = new OperacionesProductos(null);
+    	
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Imagen", "jpg", "png", "gif", "bmp");
         fileChooser.setFileFilter(filtro);
@@ -82,8 +84,9 @@ public class ProductosUpdate extends JFrame {
         // Si el usuario selecciona un archivo
         if (resultado == JOptionPane.OK_OPTION) {
             archivoSeleccionado = fileChooser.getSelectedFile();
+            Image imagen = op.decodeBase64ToImage(op.encodeImageToBase64(archivoSeleccionado));
             if (archivoSeleccionado != null) {
-                mostrarImagenEnVentana(archivoSeleccionado, imagenLabel);
+                mostrarImagenEnVentana(imagen, imagenLabel);
                 
             }
             
@@ -209,7 +212,8 @@ public class ProductosUpdate extends JFrame {
         JLabel imagenLabel = new JLabel("");
         imagenLabel.setBounds(350, 139, 150, 122);
         contentPane.add(imagenLabel);
-        imagenLabel.setIcon(new ImageIcon(op.decodeBase64ToImage(producto.getImagen())));
+        mostrarImagenEnVentana(op.decodeBase64ToImage(producto.getImagen()), imagenLabel);
+        //imagenLabel.setIcon(new ImageIcon(op.decodeBase64ToImage(producto.getImagen())));
 		
 		
 		btnUpdate.addActionListener(new ActionListener() {
