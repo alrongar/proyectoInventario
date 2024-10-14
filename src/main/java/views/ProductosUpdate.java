@@ -122,6 +122,7 @@ public class ProductosUpdate extends JFrame {
 		contentPane.add(panel_1);
 		
 		JButton BackBtn = new JButton("Back");
+		BackBtn.setForeground(new Color(255, 255, 255));
 		BackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -130,12 +131,13 @@ public class ProductosUpdate extends JFrame {
 				productoList.setVisible(true);
 			}
 		});
-		BackBtn.setBackground(new Color(255, 224, 223)); // Color del botón
+		BackBtn.setBackground(new Color(247, 123, 126)); // Color del botón
 		BackBtn.setBounds(456, 10, 109, 31);
 		panel_1.add(BackBtn);
 		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBackground(new Color(255, 224, 223)); // Color del botón
+		btnUpdate.setForeground(new Color(255, 255, 255));
+		btnUpdate.setBackground(new Color(144, 238, 144)); // Color del botón
 		btnUpdate.setBounds(22, 10, 109, 31);
 		panel_1.add(btnUpdate);
 		
@@ -148,25 +150,29 @@ public class ProductosUpdate extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Update product");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblNewLabel.setBounds(223, 12, 123, 16);
+		lblNewLabel.setBounds(221, 0, 123, 41);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
+		lblNewLabel_1.setForeground(new Color(0, 128, 192));
 		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblNewLabel_1.setBounds(28, 54, 70, 16);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Precio:");
+		lblNewLabel_1_1.setForeground(new Color(0, 128, 192));
 		lblNewLabel_1_1.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblNewLabel_1_1.setBounds(28, 83, 70, 16);
 		contentPane.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Descripcion:");
+		lblNewLabel_1_2.setForeground(new Color(0, 128, 192));
 		lblNewLabel_1_2.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblNewLabel_1_2.setBounds(28, 111, 95, 16);
 		contentPane.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_1_3 = new JLabel("Stock:");
+		lblNewLabel_1_3.setForeground(new Color(0, 128, 192));
 		lblNewLabel_1_3.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblNewLabel_1_3.setBounds(331, 77, 70, 16);
 		contentPane.add(lblNewLabel_1_3);
@@ -181,7 +187,7 @@ public class ProductosUpdate extends JFrame {
 		
 		
 		JTextArea descripcionText = new JTextArea();
-		descripcionText.setBounds(38, 139, 280, 122);
+		descripcionText.setBounds(28, 139, 280, 122);
 		contentPane.add(descripcionText);
 		descripcionText.setText(producto.getDescripcion());
 		
@@ -199,14 +205,15 @@ public class ProductosUpdate extends JFrame {
 		precioText.setText(producto.getPrecio() + "");
 		
 		JLabel lblNewLabel_2 = new JLabel("Imagen: ");
+		lblNewLabel_2.setForeground(new Color(0, 128, 192));
         lblNewLabel_2.setFont(new Font("Dialog", Font.BOLD, 15));
-        lblNewLabel_2.setBounds(331, 111, 70, 16);
+        lblNewLabel_2.setBounds(331, 106, 64, 26);
         contentPane.add(lblNewLabel_2);
         
         JButton btnSeleccion = new JButton("seleccionar imagen");
         
         btnSeleccion.setFont(new Font("Dialog", Font.BOLD, 8));
-        btnSeleccion.setBounds(387, 107, 113, 30);
+        btnSeleccion.setBounds(400, 107, 112, 30);
         contentPane.add(btnSeleccion);
         
         JLabel imagenLabel = new JLabel("");
@@ -215,6 +222,13 @@ public class ProductosUpdate extends JFrame {
         mostrarImagenEnVentana(op.decodeBase64ToImage(producto.getImagen()), imagenLabel);
         //imagenLabel.setIcon(new ImageIcon(op.decodeBase64ToImage(producto.getImagen())));
 		
+        JLabel fondoLabel = new JLabel("");
+        fondoLabel.setBounds(0, 39, 575, 266);
+        ImageIcon fondo = new ImageIcon(Inicio.class.getResource("/image/fondoInicio.jpg"));
+        Image imagenEscalada = fondo.getImage().getScaledInstance(fondoLabel.getWidth(), fondoLabel.getHeight(), Image.SCALE_SMOOTH);
+        fondo.setImage(imagenEscalada);
+        fondoLabel.setIcon(fondo);
+        contentPane.add(fondoLabel);
 		
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -3,10 +3,12 @@ package views;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -61,13 +63,13 @@ public class SignIn extends JFrame {
         
         JLabel lblNewLabel = new JLabel("Username:");
         lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 15));
-        lblNewLabel.setForeground(Color.WHITE); // Texto blanco
+        lblNewLabel.setForeground(new Color(0, 128, 192)); // Texto blanco
         lblNewLabel.setBounds(134, 98, 94, 23);
         contentPane.add(lblNewLabel);
         
         JLabel lblPassword = new JLabel("Password:");
         lblPassword.setFont(new Font("Dialog", Font.BOLD, 15));
-        lblPassword.setForeground(Color.WHITE); // Texto blanco
+        lblPassword.setForeground(new Color(0, 128, 192)); // Texto blanco
         lblPassword.setBounds(134, 133, 94, 23);
         contentPane.add(lblPassword);
         
@@ -83,8 +85,8 @@ public class SignIn extends JFrame {
         
         JButton signInBtn = new JButton("Sign In");
         signInBtn.setFont(new Font("Dialog", Font.BOLD, 16));
-        signInBtn.setBackground(new Color(255, 223, 224)); // Color del botón
-        signInBtn.setForeground(Color.BLACK); // Texto en negro
+        signInBtn.setBackground(new Color(144, 238, 144)); // Color del botón
+        signInBtn.setForeground(new Color(255, 255, 255)); // Texto en negro
         signInBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String name = userText.getText();
@@ -97,7 +99,8 @@ public class SignIn extends JFrame {
         contentPane.add(signInBtn);
         
         volverBtn = new JButton("Back");
-        volverBtn.setBackground(new Color(255, 223, 224)); // Color del botón "Back"
+        volverBtn.setForeground(new Color(255, 255, 255));
+        volverBtn.setBackground(new Color(247, 123, 126)); // Color del botón "Back"
         volverBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -109,6 +112,15 @@ public class SignIn extends JFrame {
         volverBtn.setFont(new Font("Dialog", Font.BOLD, 16));
         volverBtn.setBounds(335, 203, 115, 41);
         contentPane.add(volverBtn);
+        
+        JLabel fondoLabel = new JLabel("");
+        fondoLabel.setBounds(0, 0, 575, 344);
+        ImageIcon fondo = new ImageIcon(Inicio.class.getResource("/image/fondoInicio.jpg"));
+        Image imagenEscalada = fondo.getImage().getScaledInstance(fondoLabel.getWidth(), fondoLabel.getHeight(), Image.SCALE_SMOOTH);
+        fondo.setImage(imagenEscalada);
+        fondoLabel.setIcon(fondo);
+        
+        contentPane.add(fondoLabel);
     }
 }
 

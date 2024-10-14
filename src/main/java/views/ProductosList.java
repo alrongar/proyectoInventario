@@ -3,6 +3,7 @@ package views;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -133,19 +134,26 @@ public class ProductosList extends JFrame {
         panel_1.setLayout(null);
 
         JButton BackBtn = new JButton("Back");
-        BackBtn.setBackground(new Color(255, 224, 223));
+        BackBtn.setForeground(new Color(255, 255, 255));
+        BackBtn.setBackground(new Color(247, 123, 126));
         BackBtn.setBounds(456, 10, 109, 31);
         panel_1.add(BackBtn);
 
         JButton btnDelete = new JButton("Delete");
+        btnDelete.setForeground(new Color(255, 255, 255));
+        btnDelete.setBackground(new Color(206, 13, 18));
         btnDelete.setBounds(264, 10, 109, 31);
         panel_1.add(btnDelete);
 
         JButton btnUpdate = new JButton("Update");
+        btnUpdate.setForeground(new Color(255, 255, 255));
+        btnUpdate.setBackground(new Color(144, 238, 144));
         btnUpdate.setBounds(143, 10, 109, 31);
         panel_1.add(btnUpdate);
 
         JButton btnAdd = new JButton("Add");
+        btnAdd.setForeground(new Color(255, 255, 255));
+        btnAdd.setBackground(new Color(144, 238, 144));
         btnAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -165,7 +173,7 @@ public class ProductosList extends JFrame {
         // Crear el modelo de la tabla
         ProductosTableModel modelo = new ProductosTableModel(productosActuales);
         table = new JTable(modelo);
-        table.setRowHeight(50);
+        table.setRowHeight(75);
         // Personalización de la tabla
         table.setFillsViewportHeight(true);
         table.setBackground(new Color(255, 255, 255));
@@ -202,6 +210,15 @@ public class ProductosList extends JFrame {
         }
 
         scrollPane.setViewportView(table);
+        
+        JLabel fondoLabel = new JLabel("");
+        fondoLabel.setBounds(0, 0, 575, 266);
+        ImageIcon fondo = new ImageIcon(Inicio.class.getResource("/image/fondoInicio.jpg"));
+        Image imagenEscalada = fondo.getImage().getScaledInstance(fondoLabel.getWidth(), fondoLabel.getHeight(), Image.SCALE_SMOOTH);
+        fondo.setImage(imagenEscalada);
+        fondoLabel.setIcon(fondo);
+        panel_2.add(fondoLabel);
+        
         
         // Acción del botón "Back"
         BackBtn.addActionListener(new ActionListener() {
